@@ -5,10 +5,10 @@ import './styles.css';
 const asset = (filename) => `${import.meta.env.BASE_URL}assets/${filename}`;
 const sceneAssets = [
   'walking-person-cartoon.png',
-  'projects-room-day.png',
-  'projects-room.png',
-  'experience-room-day.png',
-  'experience-room.png',
+  'projects-room-day.jpg',
+  'projects-room.jpg',
+  'experience-room-day.jpg',
+  'experience-room.jpg',
 ].map(asset);
 
 const projects = [
@@ -266,8 +266,8 @@ function App() {
       <div className="welcome-copy"><p className="intro-kicker">AARUSH / SOFTWARE ENGINEER</p><h1>Building calm,<br />useful software.</h1><p>I’m a full-stack engineer who turns ambiguous problems into thoughtful, dependable web products.</p><button type="button" tabIndex={isIntro ? 0 : -1} onClick={() => move(1)}>Start the journey <span>↓</span></button></div>
       <p className="welcome-foot">A guided stroll through my work.</p>
     </section>
-    <RoomJourney id="projects" label="FIRST FLIGHT" title="Selected work" items={projects} dayImage={asset('projects-room-day.png')} nightImage={asset('projects-room.png')} beat={projectBeat} active={isProjects} isNight={isNight} lampOn={lampOn} catPetted={catPetted} onMove={move} onToggleTime={toggleTime} onToggleLamp={toggleLamp} onPetCat={petCat} />
-    <RoomJourney id="experience" label="SECOND FLIGHT" title="Experience" items={experience} dayImage={asset('experience-room-day.png')} nightImage={asset('experience-room.png')} beat={experienceBeat} active={isExperience} isNight={isNight} lampOn={lampOn} catPetted={catPetted} onMove={move} onToggleTime={toggleTime} onToggleLamp={toggleLamp} onPetCat={petCat} isExperience />
+    <RoomJourney id="projects" label="FIRST FLIGHT" title="Selected work" items={projects} dayImage={asset('projects-room-day.jpg')} nightImage={asset('projects-room.jpg')} beat={projectBeat} active={isProjects} isNight={isNight} lampOn={lampOn} catPetted={catPetted} onMove={move} onToggleTime={toggleTime} onToggleLamp={toggleLamp} onPetCat={petCat} />
+    <RoomJourney id="experience" label="SECOND FLIGHT" title="Experience" items={experience} dayImage={asset('experience-room-day.jpg')} nightImage={asset('experience-room.jpg')} beat={experienceBeat} active={isExperience} isNight={isNight} lampOn={lampOn} catPetted={catPetted} onMove={move} onToggleTime={toggleTime} onToggleLamp={toggleLamp} onPetCat={petCat} isExperience />
     <section className={`guided-scene closing-screen ${isContact ? 'is-active' : ''}`} aria-hidden={!isContact}>
       <p>THE FRONT DOOR</p><h2>Let’s build something<br />worth walking toward.</h2><a tabIndex={isContact ? 0 : -1} href="mailto:hello@example.com">Say hello <span>↗</span></a>
       <button type="button" className="contact-back" tabIndex={isContact ? 0 : -1} onClick={() => move(-1)}>← Back to the stairs</button>

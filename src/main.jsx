@@ -3,6 +3,13 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 
 const asset = (filename) => `${import.meta.env.BASE_URL}assets/${filename}`;
+const sceneAssets = [
+  'walking-person-cartoon.png',
+  'projects-room-day.png',
+  'projects-room.png',
+  'experience-room-day.png',
+  'experience-room.png',
+].map(asset);
 
 const projects = [
   { title: 'Developer Toolkit', stack: 'React · Node · DX', x: 16, y: 43, light: [24, 19] },
@@ -36,6 +43,52 @@ function useReducedMotion() {
     return () => media.removeEventListener('change', update);
   }, []);
   return reducedMotion;
+}
+
+function usePreloadedSceneAssets(reducedMotion) {
+  const [loaded, setLoaded] = useState(0);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const loadImage = (source) => new Promise((resolve) => {
+      const image = new Image();
+      let finished = false;
+      const finish = () => {
+        if (finished) return;
+        finished = true;
+        if (!cancelled) setLoaded((count) => Math.min(count + 1, sceneAssets.length));
+        resolve();
+      };
+      image.onload = finish;
+      image.onerror = finish;
+      image.src = source;
+      if (image.complete) finish();
+    });
+    const minimumIntro = new Promise((resolve) => window.setTimeout(resolve, reducedMotion ? 100 : 850));
+    Promise.all([Promise.all(sceneAssets.map(loadImage)), minimumIntro]).then(() => {
+      if (!cancelled) setReady(true);
+    });
+    return () => { cancelled = true; };
+  }, [reducedMotion]);
+
+  return { loaded, total: sceneAssets.length, ready };
+}
+
+function HouseLoader({ loaded, total }) {
+  const progress = total ? Math.round((loaded / total) * 100) : 0;
+  return <main className="preloader" aria-busy="true" aria-live="polite">
+    <div className="loader-house" aria-hidden="true">
+      <i className="loader-roof" /><i className="loader-window"><b /></i><i className="loader-door"><b /></i>
+      <i className="loader-stairs"><b /><b /><b /><b /></i>
+      <i className="loader-walker" />
+    </div>
+    <p className="loader-kicker">AARUSH / SOFTWARE ENGINEER</p>
+    <h1>Waking up<br />the house.</h1>
+    <div className="loader-progress" aria-hidden="true"><span style={{ width: `${progress}%` }} /></div>
+    <p className="loader-status">Hanging the pictures <b>{loaded} / {total}</b></p>
+    <span className="sr-only">Loading the illustrated portfolio: {progress}% complete.</span>
+  </main>;
 }
 
 function pathPoint(progress, isExperience = false) {
@@ -102,6 +155,8 @@ function RoomJourney({ id, label, title, items, dayImage, nightImage, beat, acti
 }
 
 function App() {
+  const reducedMotion = useReducedMotion();
+  const { loaded, total, ready } = usePreloadedSceneAssets(reducedMotion);
   const [journeyIndex, setJourneyIndex] = useState(0);
   const journeyIndexRef = useRef(0);
   const touchStart = useRef(null);
@@ -109,7 +164,6 @@ function App() {
   const unlockTimer = useRef(null);
   const catTimer = useRef(null);
   const isAnimating = useRef(false);
-  const reducedMotion = useReducedMotion();
   const [isNight, setIsNight] = useState(false);
   const [lampOn, setLampOn] = useState(false);
   const [catPetted, setCatPetted] = useState(false);
@@ -202,6 +256,8 @@ function App() {
   const projectBeat = Math.max(0, Math.min(projectStepCount - 1, journeyIndex - 1));
   const experienceBeat = Math.max(0, Math.min(experienceStepCount - 1, journeyIndex - experienceStart));
   const liveMessage = isIntro ? 'Introduction' : isProjects ? `Selected work, step ${projectBeat + 1} of ${projectStepCount}` : isExperience ? `Experience, step ${experienceBeat + 1} of ${experienceStepCount}` : 'Contact';
+
+  if (!ready) return <HouseLoader loaded={loaded} total={total} />;
 
   return <main className="portfolio-shell" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
     <p className="sr-only" aria-live="polite">{liveMessage}</p>

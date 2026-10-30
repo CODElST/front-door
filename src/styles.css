@@ -6,6 +6,28 @@ html, body, #root { width: 100%; min-height: 100%; }
 body { margin: 0; overflow: hidden; }
 button, a { font: inherit; }
 button { cursor: pointer; }
+.preloader { position:relative; display:grid; min-height:100svh; place-content:center; justify-items:center; overflow:hidden; padding:40px 26px; color:#fff4df; background:#0c2252; isolation:isolate; text-align:center; }
+.preloader::before, .preloader::after { content:''; position:absolute; z-index:-1; border-radius:50%; filter:blur(2px); }
+.preloader::before { width:min(70vw,860px); aspect-ratio:1; top:-43vw; right:-18vw; background:#1a4789; opacity:.7; }
+.preloader::after { width:min(48vw,600px); aspect-ratio:1; bottom:-29vw; left:-13vw; background:#e6a94a; opacity:.28; }
+.loader-house { position:relative; width:190px; height:160px; margin-bottom:34px; border:3px solid #f5ca5b; border-radius:8px 8px 3px 3px; background:#15396f; box-shadow:0 16px 0 rgba(3,13,37,.22); }
+.loader-roof { position:absolute; left:-14px; top:-43px; width:212px; height:72px; border:3px solid #f5ca5b; border-bottom:0; border-radius:9px 9px 0 0; background:#102a5d; clip-path:polygon(50% 0,100% 100%,0 100%); }
+.loader-window { position:absolute; left:24px; top:34px; width:46px; height:46px; border:3px solid #f5ca5b; border-radius:50% 50% 4px 4px; background:#8ec4e3; overflow:hidden; }
+.loader-window::after { content:''; position:absolute; width:13px; height:13px; top:7px; right:7px; border-radius:50%; background:#ffe080; box-shadow:0 0 20px #ffe080; }
+.loader-window b { position:absolute; width:3px; height:100%; left:50%; background:#f5ca5b; }
+.loader-door { position:absolute; right:26px; bottom:0; width:48px; height:76px; border:3px solid #f5ca5b; border-bottom:0; border-radius:27px 27px 0 0; background:#7d4428; }
+.loader-door b { position:absolute; top:39px; right:8px; width:7px; height:7px; border-radius:50%; background:#f5ca5b; }
+.loader-stairs { position:absolute; left:84px; bottom:-23px; width:95px; height:24px; transform:skewX(-35deg); }
+.loader-stairs b { position:absolute; right:0; width:24px; height:5px; border:2px solid #f5ca5b; border-left:0; background:#1b4e91; }
+.loader-stairs b:nth-child(1) { bottom:0; }.loader-stairs b:nth-child(2) { right:22px; bottom:6px; }.loader-stairs b:nth-child(3) { right:44px; bottom:12px; }.loader-stairs b:nth-child(4) { right:66px; bottom:18px; }
+.loader-walker { position:absolute; left:124px; bottom:-13px; width:14px; height:22px; border:3px solid #ffbf67; border-radius:8px 8px 4px 4px; background:#e86f42; transform-origin:bottom center; animation:loader-walk .8s ease-in-out infinite alternate; }
+.loader-walker::before { content:''; position:absolute; width:12px; height:12px; left:-2px; top:-13px; border:3px solid #ffbf67; border-radius:50%; background:#e86f42; }
+@keyframes loader-walk { from { transform:translateX(-46px) translateY(-12px) rotate(-7deg); } to { transform:translateX(4px) translateY(1px) rotate(7deg); } }
+.loader-kicker { margin:0 0 14px; color:#f5ca5b; font:500 .7rem 'DM Mono',monospace; letter-spacing:.14em; }
+.preloader h1 { margin:0; font:700 clamp(3.5rem,7vw,6.6rem)/.88 Fraunces,serif; letter-spacing:-.07em; }
+.loader-progress { width:min(310px,72vw); height:8px; margin-top:31px; overflow:hidden; border:1px solid rgba(255,244,223,.5); border-radius:999px; background:rgba(2,14,41,.25); }
+.loader-progress span { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#f5ca5b,#fff2ba); box-shadow:0 0 18px rgba(245,202,91,.7); transition:width .35s ease; }
+.loader-status { margin:12px 0 0; color:#bed1e8; font:.68rem 'DM Mono',monospace; letter-spacing:.07em; }.loader-status b { margin-left:8px; color:#fff4df; }
 .portfolio-shell { position: relative; width: 100%; height: 100svh; overflow: hidden; background: #081a40; touch-action: pan-x; }
 .guided-scene { position: absolute; inset: 0; z-index: 0; overflow: hidden; visibility: hidden; opacity: 0; pointer-events: none; transform: translateY(1.5%); transition: opacity .55s ease, transform .55s ease, visibility 0s linear .55s; }
 .guided-scene.is-active { z-index: 1; visibility: visible; opacity: 1; pointer-events: auto; transform: translateY(0); transition: opacity .55s ease, transform .55s ease; }

@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
+const asset = (filename) => `${import.meta.env.BASE_URL}assets/${filename}`;
+
 const projects = [
   { title: 'Developer Toolkit', stack: 'React · Node · DX', x: 16, y: 43, light: [24, 19] },
   { title: 'Data Dashboard', stack: 'TypeScript · Charts · APIs', x: 38, y: 52, light: [45, 26] },
@@ -83,7 +85,7 @@ function RoomJourney({ id, label, title, items, dayImage, nightImage, beat, acti
           </div>)}
         </div>
         <div className="walker-position" style={{ left: `${walker.x}%`, top: `${walker.y}%`, transform: `translate(-50%, -92%) rotate(${walker.rotation * .23}deg)` }}>
-          <img className="walker" src="/assets/walking-person-cartoon.png" alt="A cartoon person walking downstairs" />
+          <img className="walker" src={asset('walking-person-cartoon.png')} alt="A cartoon person walking downstairs" />
         </div>
         {!isExperience && <button type="button" className={unlocked ? 'door-plate is-unlocked' : 'door-plate'} disabled={!unlocked || !active} tabIndex={unlocked && active ? 0 : -1} onClick={() => onMove(1)} aria-label={unlocked ? 'Enter the Experience room' : 'Experience room unlocks after the final stair'}>Experience</button>}
         <button type="button" className="room-hotspot lamp-hotspot" disabled={!active} tabIndex={active ? 0 : -1} onClick={onToggleLamp} aria-pressed={lampOn} aria-label={lampOn ? 'Turn the reading lamp off' : 'Turn the reading lamp on'} title={lampOn ? 'Turn lamp off' : 'Turn lamp on'} />
@@ -208,8 +210,8 @@ function App() {
       <div className="welcome-copy"><p className="intro-kicker">AARUSH / SOFTWARE ENGINEER</p><h1>Building calm,<br />useful software.</h1><p>I’m a full-stack engineer who turns ambiguous problems into thoughtful, dependable web products.</p><button type="button" tabIndex={isIntro ? 0 : -1} onClick={() => move(1)}>Start the journey <span>↓</span></button></div>
       <p className="welcome-foot">A guided stroll through my work.</p>
     </section>
-    <RoomJourney id="projects" label="FIRST FLIGHT" title="Selected work" items={projects} dayImage="/assets/projects-room-day.png" nightImage="/assets/projects-room.png" beat={projectBeat} active={isProjects} isNight={isNight} lampOn={lampOn} catPetted={catPetted} onMove={move} onToggleTime={toggleTime} onToggleLamp={toggleLamp} onPetCat={petCat} />
-    <RoomJourney id="experience" label="SECOND FLIGHT" title="Experience" items={experience} dayImage="/assets/experience-room-day.png" nightImage="/assets/experience-room.png" beat={experienceBeat} active={isExperience} isNight={isNight} lampOn={lampOn} catPetted={catPetted} onMove={move} onToggleTime={toggleTime} onToggleLamp={toggleLamp} onPetCat={petCat} isExperience />
+    <RoomJourney id="projects" label="FIRST FLIGHT" title="Selected work" items={projects} dayImage={asset('projects-room-day.png')} nightImage={asset('projects-room.png')} beat={projectBeat} active={isProjects} isNight={isNight} lampOn={lampOn} catPetted={catPetted} onMove={move} onToggleTime={toggleTime} onToggleLamp={toggleLamp} onPetCat={petCat} />
+    <RoomJourney id="experience" label="SECOND FLIGHT" title="Experience" items={experience} dayImage={asset('experience-room-day.png')} nightImage={asset('experience-room.png')} beat={experienceBeat} active={isExperience} isNight={isNight} lampOn={lampOn} catPetted={catPetted} onMove={move} onToggleTime={toggleTime} onToggleLamp={toggleLamp} onPetCat={petCat} isExperience />
     <section className={`guided-scene closing-screen ${isContact ? 'is-active' : ''}`} aria-hidden={!isContact}>
       <p>THE FRONT DOOR</p><h2>Let’s build something<br />worth walking toward.</h2><a tabIndex={isContact ? 0 : -1} href="mailto:hello@example.com">Say hello <span>↗</span></a>
       <button type="button" className="contact-back" tabIndex={isContact ? 0 : -1} onClick={() => move(-1)}>← Back to the stairs</button>
